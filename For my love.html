@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>My Valentine 💖</title>
+
+<style>
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: "Segoe UI", sans-serif;
+    background: linear-gradient(135deg, #f2b8c6, #fff6ee);
+    min-height: 100vh;
+    color: #5a2a3a;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.page {
+    display: none;
+    width: 100%;
+}
+
+.page.active {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.card {
+    background: #fff;
+    padding: 35px;
+    border-radius: 25px;
+    width: 90%;
+    max-width: 520px;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+    text-align: center;
+}
+
+h1 {
+    color: #d6336c;
+    margin-bottom: 20px;
+}
+
+.quiz-question {
+    text-align: left;
+    margin-bottom: 18px;
+}
+
+.quiz-question span {
+    font-weight: bold;
+}
+
+input {
+    width: 100%;
+    padding: 12px;
+    border-radius: 15px;
+    border: 2px solid #f2b8c6;
+    margin-top: 6px;
+    font-size: 15px;
+}
+
+button {
+    margin-top: 20px;
+    background: #f2b8c6;
+    border: none;
+    padding: 14px 30px;
+    border-radius: 30px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+button:hover {
+    background: #e89aad;
+}
+
+.letterBox {
+    background: #fffaf5;
+    border-radius: 20px;
+    padding: 25px;
+    font-size: 18px;
+    line-height: 1.6;
+    box-shadow: inset 0 0 10px rgba(0,0,0,0.05);
+    min-height: 220px;
+    text-align: left;
+    white-space: pre-line;
+}
+
+.bigText {
+    font-size: 30px;
+    margin-bottom: 25px;
+}
+
+.buttons {
+    display: flex;
+    justify-content: center;
+    gap: 25px;
+}
+
+.no {
+    position: relative;
+}
+
+#popup {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.45);
+}
+
+.popupContent {
+    background: white;
+    padding: 30px;
+    border-radius: 25px;
+    width: 320px;
+    margin: 20vh auto;
+    text-align: center;
+}
+
+.confetti {
+    position: fixed;
+    width: 8px;
+    height: 14px;
+    top: -10px;
+    animation: fall linear forwards;
+    border-radius: 3px;
+}
+
+@keyframes fall {
+    to {
+        transform: translateY(110vh) rotate(360deg);
+    }
+}
+
+/* VIDEO BACKGROUND ONLY FOR LOVE LETTER PAGE */
+#letterPage {
+    position: relative;
+}
+
+#letterPage #bgVideo {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: -1;
+    opacity: 1;
+}
+</style>
+</head>
+
+<body>
+
+<!-- QUIZ PAGE -->
+<section id="quizPage" class="page active">
+<div class="card">
+<h1>💗 Valentine Quiz 💗</h1>
+
+<div class="quiz-question">
+<span>1.</span> Name of your expected Valentine 💕
+<input id="q1">
+</div>
+
+<div class="quiz-question">
+<span>2.</span> Is he cute and handsome? 😌
+<input id="q2">
+</div>
+
+<div class="quiz-question">
+<span>3.</span> Favorite color of your Valentine 💙
+<input id="q3">
+</div>
+
+<div class="quiz-question">
+<span>4.</span> What's the gift he gave to you on your first Valentine 🎁
+<input id="q4">
+</div>
+
+<div class="quiz-question">
+<span>5.</span> Do you love him SO SO SO much?! 😳
+<input id="q5">
+</div>
+
+<button onclick="checkQuiz()">Submit Answers 💕</button>
+</div>
+</section>
+
+<!-- LETTER PAGE WITH VIDEO BACKGROUND -->
+<section id="letterPage" class="page">
+<video autoplay muted loop id="bgVideo">
+    <source src="valentayms.mp4" type="video/mp4">
+    Your browser does not support HTML5 video.
+</video>
+
+<div class="card">
+<h1>💌 For You, My Love 💌</h1>
+
+<div class="letterBox" id="letterText"></div>
+
+<button onclick="goToProposal()">Next 💖</button>
+</div>
+</section>
+
+<!-- PROPOSAL PAGE -->
+<section id="proposalPage" class="page">
+<div class="card">
+<h1 class="bigText">
+My love, my wifey, my baby, my everything💕
+
+
+Will you be my Valentine?
+</h1>
+
+<div class="buttons">
+<button onclick="sayYes()">YES NA YES!💗</button>
+<button class="no" id="noBtn">NO (wag please)</button>
+</div>
+</div>
+</section>
+
+<!-- POPUP -->
+<div id="popup">
+<div class="popupContent">
+<h2>Yey!!! 💖💖💖</h2>
+<p>You can now chat your handsome, cute Valentine and say yes! 😘</p>
+<a id="messengerBtn" target="_blank">
+<button>Open Messenger 💬</button>
+</a>
+</div>
+</div>
+
+<script>
+const messengerLink = "https://www.messenger.com/";
+document.getElementById("messengerBtn").href = messengerLink;
+
+function showPage(id) {
+    document.querySelectorAll(".page").forEach(p => p.classList.remove("active"));
+    document.getElementById(id).classList.add("active");
+}
+
+function checkQuiz() {
+    const a1 = q1.value.toLowerCase().includes("kenn") || q4.value.toLowerCase().includes("kenneth") || q4.value.toLowerCase().includes("john kenneth");
+    const a2 = q2.value.toLowerCase().includes("yes") || q4.value.toLowerCase().includes("yes ofcourse");
+    const a3 = q3.value.toLowerCase() === "blue";
+    const a4 = q4.value.toLowerCase().includes("sketch") || q4.value.toLowerCase().includes("sketch portrait") || q4.value.toLowerCase().includes("flowers")|| q4.value.toLowerCase().includes("sketch portrait and flowers")|| q4.value.toLowerCase().includes("artificial flowers");
+    const a5 = q5.value.toLowerCase().includes("yes") || q4.value.toLowerCase().includes("yes ofcourse");  
+
+    if (a1 && a2 && a3 && a4 && a5) {
+        showPage("letterPage");
+        typeLetter();
+    } else {
+        alert("Oh no! You have to answer it all again to proceed 💔");
+    }
+}
+
+const letter = `My love,
+
+Every single day with you feels like something I once only dreamed of.
+You are the calm in my chaos, the smile I look for in every moment,
+and the person I want to choose again and again.
+
+I love the way you exist so effortlessly in my life,
+the way you make ordinary days feel special,
+and the way my heart feels at home whenever I'm with you.
+
+Thank you for loving me, choosing me,
+and being the most beautiful part of my life.
+I cherish you more than words could ever fully say. HAPPY VALENTINES MY BABY I LOVE YOUUU SO SO SO SO MUCH MMMMMWA!`;
+
+function typeLetter() {
+    const box = document.getElementById("letterText");
+    box.innerHTML = "";
+    let i = 0;
+    const typing = setInterval(() => {
+        box.innerHTML += letter[i];
+        i++;
+        if (i === letter.length) clearInterval(typing);
+    }, 35);
+}
+
+function goToProposal() {
+    showPage("proposalPage");
+}
+
+const noBtn = document.getElementById("noBtn");
+noBtn.addEventListener("mouseover", () => {
+    noBtn.style.left = Math.random() * 200 - 100 + "px";
+    noBtn.style.top = Math.random() * 200 - 100 + "px";
+});
+
+function sayYes() {
+    document.getElementById("popup").style.display = "block";
+    confetti();
+}
+
+function confetti() {
+    for (let i = 0; i < 120; i++) {
+        const c = document.createElement("div");
+        c.className = "confetti";
+        c.style.left = Math.random() * 100 + "vw";
+        c.style.background = ["#f2b8c6", "#ffd1dc", "#fff6ee"][Math.floor(Math.random() * 3)];
+        c.style.animationDuration = Math.random() * 3 + 2 + "s";
+        document.body.appendChild(c);
+        setTimeout(() => c.remove(), 5000);
+    }
+}
+</script>
+
+</body>
+</html>
